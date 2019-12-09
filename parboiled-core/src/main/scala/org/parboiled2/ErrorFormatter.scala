@@ -58,7 +58,7 @@ class ErrorFormatter(
     formatProblem(sb, error, input)
     import error._
     if (showExpected) formatExpected(sb, error)
-    if (showPosition) sb.append(" (line ").append(position.line).append(", column ").append(position.column).append(')')
+    if (showPosition) sb.append(" (linea ").append(position.line).append(", columna ").append(position.column).append(')')
     if (showLine) formatErrorLine(sb.append(':').append('\n'), error, input)
     if (showTraces) sb.append('\n').append('\n').append(formatTraces(error)) else sb
   }
@@ -76,9 +76,9 @@ class ErrorFormatter(
     val ix = error.position.index
     if (ix < input.length) {
       val chars = mismatchLength(error)
-      if (chars == 1) sb.append("Invalid input '").append(CharUtils.escape(input charAt ix)).append('\'')
-      else sb.append("Invalid input \"").append(CharUtils.escape(input.sliceString(ix, ix + chars))).append('"')
-    } else sb.append("Unexpected end of input")
+      if (chars == 1) sb.append("Entrada invalida '").append(CharUtils.escape(input charAt ix)).append('\'')
+      else sb.append("Entrada invalida \"").append(CharUtils.escape(input.sliceString(ix, ix + chars))).append('"')
+    } else sb.append("Fin de entrada inesperado")
   }
 
   /**
@@ -108,7 +108,7 @@ class ErrorFormatter(
     * Formats what is expected at the error location into the given StringBuilder including text padding.
     */
   def formatExpected(sb: JStringBuilder, error: ParseError): JStringBuilder =
-    sb.append(", expected ").append(formatExpectedAsString(error))
+    sb.append(", se esperaba ").append(formatExpectedAsString(error))
 
   /**
     * Formats what is expected at the error location into a single line String.
@@ -124,7 +124,7 @@ class ErrorFormatter(
       remaining match {
         case Nil                 => sb.append("???")
         case head :: Nil         => sb.append(head)
-        case head :: last :: Nil => sb.append(head).append(" or ").append(last)
+        case head :: last :: Nil => sb.append(head).append(" o ").append(last)
         case head :: tail        => sb.append(head).append(", "); rec(tail)
       }
     rec(formatExpectedAsList(error))
